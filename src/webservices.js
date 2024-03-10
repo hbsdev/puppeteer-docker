@@ -33,6 +33,13 @@
          //console.log(request.body);     // json data
  
          const html = request.body.html;
+         const header = '<div>Header Demo!</div>';
+         console.log('header:');
+         console.log(header);
+         const footer = '<div>Footer Demo!</div>';
+         console.log('footer:');
+         console.log(footer);
+         
          const settings = request.body.settings;
  
          // .html file suffix is important. Otherwise puppeteer will render the file as plaintext
@@ -44,7 +51,7 @@
                  flag: "w+",
                  mode: 0o666
              });
- 
+
  
          // Create new Chrome Browser
          // --no-sandbox is bad and unsecure, but this is running inside of a Docker Container and only
@@ -73,8 +80,29 @@
          //await page.emulateMediaType('screen');
          // page.pdf() is currently supported only in headless mode.
          // @see https://bugs.chromium.org/p/chromium/issues/detail?id=753118
+
+
+         const pdfSettings = {
+            //path: 'output.pdf',
+            format: 'A4',
+            displayHeaderFooter: true,
+            headerTemplate: header,
+            footerTemplate: footer,
+            margin: {
+              top: "300px",
+              bottom: "400px",
+            },
+          };
+
+         // merge settings from post request into pdfSettings
+         Object.assign(pdfSettings, settings);
+
+         // log pdfSettings
+         console.log('pdfSettings:');
+         console.log(pdfSettings);
+
          const pdfBuffer = await page.pdf(
-             settings
+            pdfSettings
          );
  
          await browser.close();
@@ -134,5 +162,5 @@
  });
  
  // Start the Web Server
+ console.log('Starting express app on port 0.0.0.0:8084 ...');
  app.listen(8084, '0.0.0.0');
- 
