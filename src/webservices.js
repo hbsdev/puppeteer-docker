@@ -69,7 +69,17 @@
          await page.goto('file://' + tmpFile.path, {
              waitUntil: 'networkidle0', //networkidle2
          });
- 
+         
+         // Set up header
+         const headerTemplate = await page.evaluate(() => {
+             return `<div style="font-size:10px;">Your Header Content</div>`;
+         });
+         
+         // Set up footer
+         const footerTemplate = await page.evaluate(() => {
+             return `<div style="font-size:10px;">Your Footer Content</div>`;
+         });
+         
          // This does not allow to load local CSS files
          // So we HAVE to store the HTML in a tmp file, because than we can use local CSS.
          // For the love of god - why Google?
@@ -86,8 +96,8 @@
             //path: 'output.pdf',
             format: 'A4',
             displayHeaderFooter: true,
-            headerTemplate: header,
-            footerTemplate: footer,
+            headerTemplate: headerTemplate,
+            footerTemplate: footerTemplate,
             margin: {
               top: "300px",
               bottom: "400px",
