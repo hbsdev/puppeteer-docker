@@ -17,13 +17,19 @@ RUN apt-get update && \
     apt-get clean
 
 # Just for development - not required in any way
-#RUN apt-get install -y vim bash
-
+RUN apt-get update && \
+    apt-get install -y \
+        vim bash mc ranger htop lsof \
+        nmap procps telnet net-tools curl wget && \
+    apt-get clean
+    
 WORKDIR /src
 COPY ./src /src
 
 # Should be better move this into a package.json?
 #RUN npm i puppeteer express body-parser temp
 RUN npm install
+
+EXPOSE 8084
 
 CMD ["node", "webservices.js"]
