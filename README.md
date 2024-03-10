@@ -13,7 +13,7 @@ docker run --rm -it --init -p 8084:8084 openitcockpit/puppeteer /bin/bash
 
 ## curl Test command
 ```
-curl -X POST -H "Content-Type: text/plain" --data "<\!DOCTYPE html><html><head><title>PDF test</title></head><body><p>It works!</p></body></html>" http://127.0.0.1:8084/pdf --output result.pdf
+curl -X POST -H "Content-Type: application/json" --data '{"html": "<!DOCTYPE html><html><head><title>PDF test</title></head><body><p>It works!</p></body></html>", "settings": {}}' http://127.0.0.1:8084/pdf --output ./result.pdf
 ```
 
 
